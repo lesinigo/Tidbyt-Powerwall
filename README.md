@@ -32,3 +32,11 @@ vim tidbyt_powerwall.env    # set TPW_* configuration variables
 source <YOUR DIRECTORY OF CHOICE>/tidbyt_powerwall.env
 <YOUR DIRECTORY OF CHOICE>/bin/tidbyt_powerwall
 ```
+
+## change timezone
+
+Time on the generated Tidbyt screens will be in the default timezone of the
+system were the script is running.
+
+If you want to render time in a different timezone simply set the `TZ`
+environment variable to the desired timezone.
