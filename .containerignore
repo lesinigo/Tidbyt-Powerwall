@@ -1,0 +1,7 @@
+.envrc
+.git
+.gitignore
+.mypy_cache
+.venv
+build
+dist
