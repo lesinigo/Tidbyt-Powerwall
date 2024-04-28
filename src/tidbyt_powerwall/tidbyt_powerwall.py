@@ -69,6 +69,7 @@ class Tidbyt:  # pylint:disable=too-few-public-methods
 
         ref.: https://tidbyt.dev/docs/tidbyt-api/b3A6MTYyODkwOA-push-to-a-device
         """
+        image_bytes.seek(0)
         url = f"https://api.tidbyt.com/v0/devices/{self.device_id}/push"
         image_data = image_bytes.getvalue()
         data = {
