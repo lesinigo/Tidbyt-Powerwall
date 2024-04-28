@@ -36,14 +36,11 @@ dev = [
 ]
 
 [project.scripts]
-tidbyt_powerwall = "tidbyt_powerwall:main"
+tidbyt_powerwall = "tidbyt_powerwall.tidbyt_powerwall:main"
 
 [project.urls]
 Homepage = "https://github.com/lesinigo/Tidbyt-Powerwall"
 Issues = "https://github.com/lesinigo/Tidbyt-Powerwall/issues"
-
-# [tool.setuptools]
-# py-modules = ["tidbyt_powerwall"]
 
 [tool.setuptools.dynamic]
 version = {attr = "tidbyt_powerwall.tidbyt_powerwall.__version__"}
