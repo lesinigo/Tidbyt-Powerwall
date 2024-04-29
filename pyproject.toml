@@ -12,7 +12,7 @@ requires-python = ">=3.10"
 keywords = ["tesla", "powerwall", "tesla_powerwall", "tidbyt"]
 license = {text = "GNU General Public License v2 (GPLv2)"}
 classifiers = [
-    "Development Status :: 3 - Alpha",
+    "Development Status :: 5 - Production/Stable",
     "Environment :: No Input/Output (Daemon)",
     "Intended Audience :: End Users/Desktop",
     "License :: OSI Approved :: GNU General Public License v2 (GPLv2)",
