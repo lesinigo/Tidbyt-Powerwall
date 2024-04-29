@@ -11,7 +11,7 @@ from importlib.resources import files
 
 import requests
 from PIL import Image, ImageDraw, ImageFont
-from tesla_powerwall import Powerwall  # type: ignore[import-untyped]
+from tesla_powerwall import Powerwall, PowerwallUnreachableError  # type: ignore[import-untyped]
 from urllib3.util.retry import Retry
 
 if t.TYPE_CHECKING:
@@ -196,23 +196,26 @@ def main(sleep_interval: int = 60) -> t.NoReturn:
     while True:
         # get data from PowerWall
         now = datetime.now()
-        charge = powerwall.get_charge()
-        meters = powerwall.get_meters()
-        battery_power = meters.battery.get_power()
-        load_power = meters.load.get_power()
-        # generate Image
-        webp = tidbyt_screen.compose_webp(
-            charge=charge,
-            battery_power=battery_power,
-            load_power=load_power,
-            is_drawing=meters.battery.is_drawing_from(),
-            is_charging=meters.battery.is_sending_to(),
-            now=now,
-        )
-        # upload image to Tidbyt servers
-        tidbyt.push(image_bytes=webp, installation_id="powerwall", background=True)
-        # log and sleep until next round minute
-        print(now.isoformat(), f"bat={battery_power:4.1f}kW load={load_power:3.1f}kW soc={charge:4.1f}%")
+        try:
+            charge = powerwall.get_charge()
+            meters = powerwall.get_meters()
+            battery_power = meters.battery.get_power()
+            load_power = meters.load.get_power()
+            # generate Image
+            webp = tidbyt_screen.compose_webp(
+                charge=charge,
+                battery_power=battery_power,
+                load_power=load_power,
+                is_drawing=meters.battery.is_drawing_from(),
+                is_charging=meters.battery.is_sending_to(),
+                now=now,
+            )
+            # upload image to Tidbyt servers
+            tidbyt.push(image_bytes=webp, installation_id="powerwall", background=True)
+            # log and sleep until next round minute
+            print(now.isoformat(), f"bat={battery_power:4.1f}kW load={load_power:3.1f}kW soc={charge:4.1f}%")
+        except PowerwallUnreachableError:
+            print(now.isoformat(), "error: Powerwall unreachable")
         sleep = sleep_interval - time.time() % sleep_interval
         time.sleep(sleep)
 
